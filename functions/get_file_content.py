@@ -1,14 +1,14 @@
 import os
 from config import MAX_SIZE
+from functions.validate_path import validate_path
 
 
 def get_file_content(working_directory, file_path):
     try:
-        file_path = os.path.join(working_directory, file_path)
-        absolute_path = os.path.abspath(file_path)
-        absolute_working_path = os.path.abspath(working_directory)
-        if not absolute_path.startswith(absolute_working_path):
+        if not validate_path(working_directory,file_path):
             return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'
+        file_path=os.path.join(working_directory,file_path)
+        absolute_path = os.path.abspath(file_path)
         if not os.path.isfile(absolute_path):
             return f'Error: File not found or is not a regular file: "{file_path}"'
 
