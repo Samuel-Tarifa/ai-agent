@@ -46,13 +46,21 @@ response = client.models.generate_content(
     model="gemini-2.0-flash-001", contents=messages, config=config
 )
 
+from call_function import call_function
+
+verbose="--verbose" in sys.argv
+
 if response.function_calls:
-    for call in response.function_calls:
-        print(f"Calling function: {call.name}({call.args})")
+    for function_call_part in response.function_calls:
+        function_call_result=call_function(function_call_part,verbose=verbose)
+        if not function_call_result.parts[0].function_response.response:
+            raise Exception("Function call failed")
+        if verbose:
+            print(f"-> {function_call_result.parts[0].function_response.response}")
 
 print(response.text)
 
-if "--verbose" in sys.argv:
+if verbose:
     print(f"User prompt: {user_prompt}")
     print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
     print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
