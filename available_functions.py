@@ -8,7 +8,7 @@ schema_get_files_info = types.FunctionDeclaration(
         properties={
             "directory": types.Schema(
                 type=types.Type.STRING,
-                description="The directory to list files from, relative to the working directory, start with './'. If not provided, lists files in the working directory itself.",
+                description="The directory to list files from, relative to the working directory. If not provided, lists files in the working directory itself.",
             ),
         },
     ),
@@ -22,7 +22,7 @@ schema_get_file_content=types.FunctionDeclaration(
         properties={
             "file_path": types.Schema(
                 type=types.Type.STRING,
-                description="The path to the file to get the content, relative to the working directory, start with './'.",
+                description="The path to the file to get the content, relative to the working directory.",
             ),
         },
         required=["file_path"]
@@ -37,11 +37,11 @@ schema_run_python_file=types.FunctionDeclaration(
         properties={
             "file_path": types.Schema(
                 type=types.Type.STRING,
-                description="The path to the file to run, relative to the working directory, start with './'.",
+                description="The path to the file to run, relative to the working directory.",
             ),
             "args":types.Schema(
                 type=types.Type.ARRAY,
-                description="Args to run the file, default to an empty array.",
+                description="Args to run the file, if arguments are not provided, it may not need it, defaults to an empty array.",
                 items=types.Schema(type=types.Type.STRING)
             )
         },
@@ -57,7 +57,7 @@ schema_write_file=types.FunctionDeclaration(
         properties={
             "file_path": types.Schema(
                 type=types.Type.STRING,
-                description="The path to the file to write, relative to the working directory, start with './', if file not exists, it creates it.",
+                description="The path to the file to write, relative to the working directory, if file not exists, it creates it.",
             ),
             "content":types.Schema(
                 type=types.Type.STRING,
